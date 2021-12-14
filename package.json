@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "nodemon src/index.js",
-    "deploy-cmds": "node src/deploy-commands.js"
+    "deploy-cmds": "node src/deployCommands.js"
   },
   "dependencies": {
     "@discordjs/builders": "^0.9.0",
