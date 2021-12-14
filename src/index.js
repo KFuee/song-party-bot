@@ -1,10 +1,10 @@
 const { Intents } = require("discord.js");
 
-const SongPartyCliente = require("./estructuras/SongPartyCliente");
+const SongPartyClient = require("./structures/SongPartyClient");
 
-const cliente = new SongPartyCliente({
+const client = new SongPartyClient({
   intents: [Intents.FLAGS.GUILDS],
 });
 
 // Inicio del cliente
-cliente.iniciar();
+client.run();

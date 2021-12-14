@@ -1,25 +1,25 @@
 module.exports = {
   name: "interactionCreate",
   once: false,
-  async ejecutar(interaccion) {
+  async execute(interaction) {
     // Obtiene el cliente
-    const cliente = interaccion.client;
+    const client = interaction.client;
 
     // Comprueba si la interacción es un comando
-    if (!interaccion.isCommand()) return;
+    if (!interaction.isCommand()) return;
 
     // Obtiene el comando
-    const comando = cliente.comandos.get(interaccion.commandName);
+    const command = client.commands.get(interaction.commandName);
 
     // Comprueba si el comando existe
-    if (!comando) return;
+    if (!command) return;
 
     // Ejecuta el comando
     try {
-      await comando.ejecutar(interaccion);
+      await command.execute(interaction);
     } catch (error) {
       console.error(error);
-      await interaccion.reply({
+      await interaction.reply({
         content: "Ha ocurrido un error ejecutando el comando",
         ephemeral: true,
       });
