@@ -1,4 +1,5 @@
 const fs = require("fs");
+const join = require("path").join;
 const { Manager } = require("erela.js");
 const { Client, Collection } = require("discord.js");
 
