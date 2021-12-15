@@ -24,16 +24,16 @@ class SongPartyClient extends Client {
   loadEvents() {
     const eventFiles = fs
       // Navegar hacia atrás en el directorio
-      .readdirSync(join(__dirname, "../events"))
+      .readdirSync(join(__dirname, "../listeners"))
       .filter((file) => file.endsWith(".js"));
 
     for (const eventFile of eventFiles) {
-      const event = require(`../events/${eventFile}`);
+      const event = require(`../listeners/${eventFile}`);
 
       if (event.once) {
-        this.once(event.name, (...args) => event.execute(...args));
+        this.once(event.name, (...args) => event.execute(this, ...args));
       } else {
-        this.on(event.name, (...args) => event.execute(...args));
+        this.on(event.name, (...args) => event.execute(this, ...args));
       }
     }
   }

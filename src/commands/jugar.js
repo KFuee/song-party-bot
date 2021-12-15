@@ -12,7 +12,8 @@ module.exports = {
 
     // Obtiene el servidor y el usuario que ha ejecutado el comando
     const guild = client.guilds.cache.get(guildId);
-    const member = guild.members.cache.get(interaction.user.id);
+    const userId = interaction.user.id;
+    const member = guild.members.cache.get(userId);
 
     // Obtiene el canal de texto y el canal de voz
     const textChannel = interaction.channelId;
@@ -29,5 +30,23 @@ module.exports = {
 
     // Conecta el cliente al canal de voz
     music.connect(textChannel, voiceChannel.id);
+
+    // Busca la canción introducida por el usuario
+    const res = await client.manager.search("bad bunny", userId);
+
+    // Obtiene el reproductor
+    const player = client.manager.players.get(guildId);
+
+    // Añade la canción al reproductor
+    player.queue.add(res.tracks[0]);
+
+    // Comprueba si el reproductor está reproduciendo
+    if (!player.playing && !player.paused && !player.queue.size) {
+      // Reproduce la canción
+      player.play();
+    }
+
+    // Envía el mensaje de confirmación
+    return interaction.reply({ content: "¡Jugando!" });
   },
 };

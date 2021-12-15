@@ -1,10 +1,7 @@
 module.exports = {
   name: "interactionCreate",
   once: false,
-  async execute(interaction) {
-    // Obtiene el cliente
-    const client = interaction.client;
-
+  async execute(client, interaction) {
     // Comprueba si la interacción es un comando
     if (!interaction.isCommand()) return;
 
