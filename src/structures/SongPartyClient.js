@@ -9,7 +9,9 @@ class SongPartyClient extends Client {
 
     this.config = require("../config");
 
+    this.games = new Collection();
     this.commands = new Collection();
+
     this.manager = new Manager({
       nodes: this.config.lavalinkNodes,
       send: (id, payload) => {

@@ -1,10 +1,11 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
+const Game = require("../structures/Game");
 const SongPartyMusic = require("../structures/SongPartyMusic");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("jugar")
+    .setName("play")
     .setDescription("Iniciar una partida de trivia"),
   async execute(interaction) {
     const client = interaction.client;
@@ -24,6 +25,15 @@ module.exports = {
       interaction.reply("Debes estar en un canal de voz para poder jugar.");
       return;
     }
+
+    // Obtiene todos los miembros del canal de voz
+    const players = voiceChannel.members.map((player) => player.id);
+
+    // Crea una instancia de la clase Game
+    const game = new Game(players);
+
+    // Añade la partida a la colección de partidas
+    client.games.set(game.id, game);
 
     // Instancia un nuevo objeto SongPartyMusic
     const music = new SongPartyMusic(guild);
