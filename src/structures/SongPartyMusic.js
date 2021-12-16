@@ -14,14 +14,14 @@ class SongPartyMusic {
   }
 
   // Obtiene n canciones aleatorias de la playlist
-  async getRandomSongs(n, playlist) {
+  async getRandomSongs(n, playlist, requester) {
     // Comprueba si existe un reproductor en el servidor
     if (!this.player) {
       return;
     }
 
     // Obtiene la playlist
-    const res = await this.player.search(playlist, this.guild.id);
+    const res = await this.player.search(playlist, requester);
 
     // Obtiene las canciones aleatorias
     const songs = res.tracks.slice(0, n);

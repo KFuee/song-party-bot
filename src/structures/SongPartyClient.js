@@ -30,15 +30,14 @@ class SongPartyClient extends Client {
     for (const eventFile of eventFiles) {
       const event = require(eventFile);
 
-      if (event.manager) {
-        this.manager.on(event.name, (...args) => event.execute(this, ...args));
-        return;
-      }
-
-      if (event.once) {
-        this.once(event.name, (...args) => event.execute(this, ...args));
+      if (!event.manager) {
+        if (event.once) {
+          this.once(event.name, (...args) => event.execute(this, ...args));
+        } else {
+          this.on(event.name, (...args) => event.execute(this, ...args));
+        }
       } else {
-        this.on(event.name, (...args) => event.execute(this, ...args));
+        this.manager.on(event.name, (...args) => event.execute(this, ...args));
       }
     }
   }

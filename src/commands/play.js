@@ -35,7 +35,8 @@ module.exports = {
     // Obtiene 5 canciones aleatorias de la playlist
     const songs = await music.getRandomSongs(
       5,
-      "https://www.youtube.com/watch?v=J4_W-R3iPJ8&list=PLxZHtuv5hUL94eMtcOOV0BiZu6a4cRo4J"
+      "https://www.youtube.com/watch?v=J4_W-R3iPJ8&list=PLxZHtuv5hUL94eMtcOOV0BiZu6a4cRo4J",
+      userId
     );
 
     // Obtiene todos los miembros del canal de voz
