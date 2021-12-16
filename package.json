@@ -9,7 +9,8 @@
     "discord-api-types": "^0.25.2",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
-    "erela.js": "^2.3.3"
+    "erela.js": "^2.3.3",
+    "glob": "^7.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

@@ -1,4 +1,4 @@
-const fs = require("fs");
+const glob = require("glob");
 const join = require("path").join;
 const { Manager } = require("erela.js");
 const { Client, Collection } = require("discord.js");
@@ -24,13 +24,16 @@ class SongPartyClient extends Client {
   }
 
   loadEvents() {
-    const eventFiles = fs
-      // Navegar hacia atrás en el directorio
-      .readdirSync(join(__dirname, "../listeners"))
-      .filter((file) => file.endsWith(".js"));
+    // Obtiene todos los eventos del directorio listeners y subdirectorios
+    const eventFiles = glob.sync(join(__dirname, "../listeners/**/*.js"));
 
     for (const eventFile of eventFiles) {
-      const event = require(`../listeners/${eventFile}`);
+      const event = require(eventFile);
+
+      if (event.manager) {
+        this.manager.on(event.name, (...args) => event.execute(this, ...args));
+        return;
+      }
 
       if (event.once) {
         this.once(event.name, (...args) => event.execute(this, ...args));
@@ -41,12 +44,11 @@ class SongPartyClient extends Client {
   }
 
   loadCommands() {
-    const commandFiles = fs
-      .readdirSync(join(__dirname, "../commands"))
-      .filter((file) => file.endsWith(".js"));
+    // Obtiene todos los comandos del directorio commands
+    const commandFiles = glob.sync(join(__dirname, "../commands/*.js"));
 
     for (const commandFile of commandFiles) {
-      const command = require(`../commands/${commandFile}`);
+      const command = require(commandFile);
       this.commands.set(command.data.name, command);
     }
   }

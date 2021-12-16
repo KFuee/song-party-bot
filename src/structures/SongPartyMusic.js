@@ -15,6 +15,11 @@ class SongPartyMusic {
 
   // Obtiene n canciones aleatorias de la playlist
   async getRandomSongs(n, playlist) {
+    // Comprueba si existe un reproductor en el servidor
+    if (!this.player) {
+      return;
+    }
+
     // Obtiene la playlist
     const res = await this.player.search(playlist, this.guild.id);
 
