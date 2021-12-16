@@ -7,6 +7,7 @@ class Game {
     this.randomSongs = this.getRandomSongs(5);
     this.state = "preparing";
     this.scores = {};
+    this.ronda = 0;
   }
 
   // Obtiene n canciones aleatorias de la playlist

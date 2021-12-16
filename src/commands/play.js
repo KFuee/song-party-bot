@@ -49,8 +49,5 @@ module.exports = {
 
     // Reproduce la primera canción
     music.play(game.randomSongs[0]);
-
-    // Envía el mensaje de confirmación
-    return interaction.reply({ content: "¡Jugando!" });
   },
 };

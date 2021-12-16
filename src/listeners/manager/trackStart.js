@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageActionRow, Messa } = require("discord.js");
 
 module.exports = {
   name: "trackStart",
@@ -19,6 +19,23 @@ module.exports = {
     // Obtiene las posibles respuestas
     const answers = game.getRandomAnswers(5, track);
 
-    console.log(answers);
+    // Crea un nuevo embed con las respuestas
+    const embed = new MessageEmbed()
+      .setColor("#0099ff")
+      .setAuthor(client.user.username, client.user.displayAvatarURL())
+      .setTitle(`Ronda número: ${game.ronda + 1}`)
+      // Añadir las respuestas con número de respuesta
+      .addField(
+        "Respuestas",
+        answers.map((answer, index) => `${index + 1}. ${answer}`).join("\n")
+      )
+      .setDescription("Reacciona con el número de la respuesta que desees")
+      .setFooter(`ID de la partida: ${game.id}`);
+
+    // Envía el embed al canal de texto
+    channel.send({ embeds: [embed] });
+
+    // Incrementa la ronda
+    game.ronda++;
   },
 };
