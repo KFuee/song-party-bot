@@ -1,4 +1,8 @@
-const { MessageEmbed, MessageActionRow, Messa } = require("discord.js");
+const {
+  MessageEmbed,
+  MessageActionRow,
+  MessageSelectMenu,
+} = require("discord.js");
 
 module.exports = {
   name: "trackStart",
@@ -23,17 +27,30 @@ module.exports = {
     const embed = new MessageEmbed()
       .setColor("#0099ff")
       .setAuthor(client.user.username, client.user.displayAvatarURL())
-      .setTitle(`Ronda número: ${game.ronda + 1}`)
-      // Añadir las respuestas con número de respuesta
-      .addField(
-        "Respuestas",
-        answers.map((answer, index) => `${index + 1}. ${answer}`).join("\n")
+      .setTitle(`Ronda número ${game.ronda + 1}`)
+      .setDescription(
+        "¿Qué canción está sonando? \n " +
+          "Selecciona una de las siguientes opciones.\n \n" +
+          "¡Tienes 30 segundos para responder!"
       )
-      .setDescription("Reacciona con el número de la respuesta que desees")
       .setFooter(`ID de la partida: ${game.id}`);
 
-    // Envía el embed al canal de texto
-    channel.send({ embeds: [embed] });
+    // Crea un selector de respuestas
+    const select = new MessageActionRow().addComponents(
+      new MessageSelectMenu()
+        .setCustomId("respuesta")
+        .setPlaceholder("Selecciona una respuesta")
+        .addOptions(
+          answers.map((answer, index) => ({
+            label: `Opción ${index + 1}`,
+            description: answer,
+            value: answer,
+          }))
+        )
+    );
+
+    // Envía el embed y select al canal de texto
+    channel.send({ embeds: [embed], components: [select] });
 
     // Incrementa la ronda
     game.ronda++;
