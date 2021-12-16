@@ -13,21 +13,18 @@ class SongPartyMusic {
     return this.client.manager.players.get(this.guild.id) || null;
   }
 
-  // Obtiene n canciones aleatorias de la playlist
-  async getRandomSongs(n, playlist, requester) {
+  // Obtiene las canciones de una playlist
+  async getPlaylistSongs(playlist, requester) {
     // Comprueba si existe un reproductor en el servidor
     if (!this.player) {
       return;
     }
 
-    // Obtiene la playlist
-    const res = await this.player.search(playlist, requester);
-
-    // Obtiene las canciones aleatorias
-    const songs = res.tracks.slice(0, n);
+    // Obtiene las canciones de la playlist
+    const playlistSongs = await this.player.search(playlist, requester);
 
     // Devuelve las canciones
-    return songs;
+    return playlistSongs.tracks;
   }
 
   // Se conecta al canal de voz

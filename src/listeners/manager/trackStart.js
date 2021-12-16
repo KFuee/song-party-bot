@@ -13,14 +13,12 @@ module.exports = {
     const member = guild.members.cache.get(track.requester);
     if (!member) return;
 
-    const embed = new MessageEmbed()
-      .setColor(member.displayColor)
-      .setAuthor(member.displayName, member.user.displayAvatarURL())
-      .setTitle(track.title)
-      .setURL(track.uri)
-      .setThumbnail(track.thumbnail)
-      .setFooter(`Duración: ${track.duration}`);
+    // Obtiene la partida de la colección de partidas
+    const game = client.games.get(payload.guildId);
 
-    channel.send({ embeds: [embed] });
+    // Obtiene las posibles respuestas
+    const answers = game.getRandomAnswers(5, track);
+
+    console.log(answers);
   },
 };

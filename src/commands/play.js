@@ -32,9 +32,8 @@ module.exports = {
     // Conecta el cliente al canal de voz
     music.connect(textChannel, voiceChannel.id);
 
-    // Obtiene 5 canciones aleatorias de la playlist
-    const songs = await music.getRandomSongs(
-      5,
+    // Obtiene las canciones de la playlist
+    const playlistSongs = await music.getPlaylistSongs(
       "https://www.youtube.com/watch?v=J4_W-R3iPJ8&list=PLxZHtuv5hUL94eMtcOOV0BiZu6a4cRo4J",
       userId
     );
@@ -43,13 +42,13 @@ module.exports = {
     const players = voiceChannel.members.map((player) => player.id);
 
     // Crea una instancia de la clase Game
-    const game = new Game(players, songs);
+    const game = new Game(players, playlistSongs);
 
     // Añade la partida a la colección de partidas
-    client.games.set(game.id, game);
+    client.games.set(guildId, game);
 
     // Reproduce la primera canción
-    music.play(game.playlist[0]);
+    music.play(game.randomSongs[0]);
 
     // Envía el mensaje de confirmación
     return interaction.reply({ content: "¡Jugando!" });
