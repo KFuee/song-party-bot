@@ -26,8 +26,10 @@ module.exports = {
       return;
     }
 
-    // Obtiene todos los miembros del canal de voz
-    const players = voiceChannel.members.map((player) => player.id);
+    // Obtiene todos los ids de los usuarios del canal de voz menos el bot
+    const players = voiceChannel.members
+      .filter((player) => !player.user.bot)
+      .map((player) => player.user.id);
 
     // Instancia un nuevo objeto SongPartyMusic
     const music = new SongPartyMusic(guild);
@@ -41,9 +43,6 @@ module.exports = {
       userId
     );
 
-    // Reproduce la primera canción
-    music.play(game.randomSongs[0]);
-
     // Crea una instancia de la clase Game
     const game = new Game(playlistSongs);
 
@@ -52,5 +51,8 @@ module.exports = {
 
     // Añade la partida a la colección de partidas
     client.games.set(guildId, game);
+
+    // Reproduce la primera canción
+    music.play(game.randomSongs[0]);
   },
 };

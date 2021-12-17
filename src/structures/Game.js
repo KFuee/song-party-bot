@@ -1,5 +1,6 @@
 const { Collection } = require("discord.js");
 
+const GamePlayer = require("./GamePlayer");
 const Functions = require("../utils/Functions");
 
 class Game {

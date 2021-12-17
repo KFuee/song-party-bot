@@ -27,7 +27,7 @@ module.exports = {
     const embed = new MessageEmbed()
       .setColor("#0099ff")
       .setAuthor(client.user.username, client.user.displayAvatarURL())
-      .setTitle(`Ronda número ${game.round + 1}`)
+      .setTitle(`Ronda número ${game.round}`)
       .setDescription(
         "¿Qué canción está sonando? \n " +
           "Selecciona una de las siguientes opciones.\n \n" +
@@ -51,8 +51,5 @@ module.exports = {
 
     // Envía el embed y select al canal de texto
     channel.send({ embeds: [embed], components: [select] });
-
-    // Incrementa la ronda
-    game.round++;
   },
 };
