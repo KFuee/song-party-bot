@@ -2,9 +2,7 @@ module.exports = {
   name: "interactionCreate",
   once: false,
   async execute(client, interaction) {
-    // Comprueba si la interacción es un comando
-    if (!interaction.isCommand() && !interaction.isSelectMenu()) return;
-
+    // Comrprueba si la interacción es un comando
     if (interaction.isCommand()) {
       // Obtiene el comando
       const command = client.commands.get(interaction.commandName);
@@ -24,6 +22,7 @@ module.exports = {
       }
     }
 
+    // Comprueba si la interacción es una respuesta
     if (interaction.isSelectMenu()) {
       // Obtiene el usuario que ha seleccionado una opción
       const userId = interaction.user.id;

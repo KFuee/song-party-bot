@@ -1,4 +1,5 @@
-const fs = require("fs");
+const glob = require("glob");
+const join = require("path").join;
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 
@@ -6,13 +7,11 @@ const { clientId, guildId, token } = require("./config");
 
 // Definición de los comandos
 const commands = [];
-const commandFiles = fs
-  .readdirSync("./src/commands")
-  .filter((file) => file.endsWith(".js"));
+const commandFiles = glob.sync(join(__dirname, "/commands/*.js"));
 
 // Carga de los comandos
 for (const commandFile of commandFiles) {
-  const command = require(`./commands/${commandFile}`);
+  const command = require(commandFile);
   commands.push(command.data.toJSON());
 }
 
