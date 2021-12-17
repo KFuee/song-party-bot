@@ -6,7 +6,7 @@ const Functions = require("../utils/Functions");
 class Game {
   constructor(playlistSongs) {
     // Genera una id aleatoria para la partida con Math.random()
-    this.id = Math.random();
+    this.id = "game_" + Math.random().toString(36).substring(2, 9);
 
     this.round = 0;
     this.state = "preparing";
