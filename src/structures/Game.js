@@ -1,5 +1,7 @@
 const { Collection } = require("discord.js");
 
+const Functions = require("../utils/Functions");
+
 class Game {
   constructor(players, playlistSongs) {
     // Genera una id aleatoria para la partida con Math.random()
@@ -23,7 +25,7 @@ class Game {
     }
 
     // Mezcla las canciones aleatoriamente
-    const randomSongs = this.playlistSongs.sort(() => 0.5 - Math.random());
+    const randomSongs = Functions.randomizeArray(this.playlistSongs);
 
     // Obtiene n canciones de randomSongs
     const randomSongs_slice = randomSongs.slice(0, n);
@@ -35,16 +37,16 @@ class Game {
   // Obtiene n respuestas aleatorias de la playlist
   getRandomAnswers(n, track) {
     // Mezcla las canciones aleatoriamente
-    const randomSongs = this.playlistSongs.sort(() => 0.5 - Math.random());
+    const randomSongs = Functions.randomizeArray(this.playlistSongs);
 
     // Obtiene n - 1 canciones de randomSongs
     const randomSongs_slice = randomSongs.slice(0, n - 1);
 
     // Obtiene una array de respuestas aleatorias
     const answers = randomSongs_slice.map((song) => {
-      const randBoolean = Math.random() >= 0.5;
+      const randomBoolean = Functions.randomBoolean();
 
-      if (randBoolean) {
+      if (randomBoolean) {
         return song.title;
       } else {
         return song.author;
@@ -52,9 +54,9 @@ class Game {
     });
 
     // Añade la canción correcta a las respuestas
-    const randBoolean = Math.random() >= 0.5;
+    const randomBoolean = Functions.randomBoolean();
 
-    if (randBoolean) {
+    if (randomBoolean) {
       answers.push(track.title);
     } else {
       answers.push(track.author);
