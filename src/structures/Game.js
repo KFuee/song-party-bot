@@ -1,13 +1,18 @@
+const { Collection } = require("discord.js");
+
 class Game {
   constructor(players, playlistSongs) {
     // Genera una id aleatoria para la partida con Math.random()
     this.id = Math.random();
+
+    this.round = 0;
+    this.scores = new Collection();
+    this.answers = new Collection();
+    this.state = "preparing";
+
     this.players = players;
     this.playlistSongs = playlistSongs;
     this.randomSongs = this.getRandomSongs(5);
-    this.state = "preparing";
-    this.scores = {};
-    this.ronda = 0;
   }
 
   // Obtiene n canciones aleatorias de la playlist
@@ -57,6 +62,67 @@ class Game {
 
     // Devuelve las respuestas
     return answers;
+  }
+
+  checkAnswer(answer) {
+    // Comprueba si la respuesta es correcta
+    if (
+      answer === this.randomSongs[this.round - 1].title ||
+      answer === this.randomSongs[this.round - 1].author
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Añade una respuesta a la partida
+  addAnswer(round, answer, player) {
+    // Comprueba si la respuesta es correcta
+    const correct = this.checkAnswer(answer);
+
+    // Comprueba si el jugador se encuentra en la colección de respuestas
+    if (this.answers.has(player)) {
+      // Obtiene las respuestas del jugador
+      const playerAnswers = this.answers.get(player);
+
+      // Añade las respuestas al jugador
+      playerAnswers.push({
+        round,
+        answer,
+        correct,
+      });
+      this.answers.set(player, playerAnswers);
+    } else {
+      // Añade el jugador a la colección de respuestas
+      this.answers.set(player, [
+        {
+          round,
+          answer,
+          correct,
+        },
+      ]);
+    }
+
+    // Añade la puntación al jugador si la respuesta es correcta
+    if (correct) {
+      this.addScore(player, 1);
+    }
+  }
+
+  addScore(player, score) {
+    // Comprueba si el jugador se encuentra en la colección de puntos
+    if (this.scores.has(player)) {
+      // Obtiene los puntos del jugador
+      const playerScore = this.scores.get(player);
+
+      // Añade los puntos al jugador
+      playerScore.push(score);
+      this.scores.set(player, playerScore);
+    } else {
+      // Añade el jugador a la colección de puntos
+      this.scores.set(player, [score]);
+    }
   }
 }
 
