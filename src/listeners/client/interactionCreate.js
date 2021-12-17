@@ -33,11 +33,8 @@ module.exports = {
       // Comprueba si la partida existe
       if (!game) return;
 
-      // Comprueba si el usuario ya ha seleccionado una opción
-      if (game.answers.has(userId)) return;
-
       // Añade la respuesta del usuario a la partida
-      game.addAnswer(game.round, interaction.values[0], userId);
+      game.addAnswer(userId, interaction.values[0]);
     }
   },
 };

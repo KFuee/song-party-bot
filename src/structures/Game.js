@@ -3,18 +3,23 @@ const { Collection } = require("discord.js");
 const Functions = require("../utils/Functions");
 
 class Game {
-  constructor(players, playlistSongs) {
+  constructor(playlistSongs) {
     // Genera una id aleatoria para la partida con Math.random()
     this.id = Math.random();
 
     this.round = 0;
-    this.scores = new Collection();
-    this.answers = new Collection();
     this.state = "preparing";
 
-    this.players = players;
+    this.players = new Collection();
     this.playlistSongs = playlistSongs;
-    this.randomSongs = this.getRandomSongs(5);
+    this.randomSongs = [];
+  }
+
+  // Crea todos los jugadores de la partida
+  createPlayers(players) {
+    players.forEach((player) => {
+      this.players.set(player, new GamePlayer());
+    });
   }
 
   // Obtiene n canciones aleatorias de la playlist
@@ -79,52 +84,46 @@ class Game {
   }
 
   // Añade una respuesta a la partida
-  addAnswer(round, answer, player) {
+  addAnswer(player, answer) {
+    // Obtiene el jugador de la colección de jugadores
+    const gamePlayer = this.players.get(player);
+
+    // Comprueba si el jugador ha respondido ya
+    if (gamePlayer.hasAnswered(this.round)) return;
+
     // Comprueba si la respuesta es correcta
     const correct = this.checkAnswer(answer);
 
-    // Comprueba si el jugador se encuentra en la colección de respuestas
-    if (this.answers.has(player)) {
-      // Obtiene las respuestas del jugador
-      const playerAnswers = this.answers.get(player);
+    // Añade la respuesta al jugador
+    gamePlayer.setAnswer(this.round, answer, correct);
 
-      // Añade las respuestas al jugador
-      playerAnswers.push({
-        round,
-        answer,
-        correct,
-      });
-      this.answers.set(player, playerAnswers);
-    } else {
-      // Añade el jugador a la colección de respuestas
-      this.answers.set(player, [
-        {
-          round,
-          answer,
-          correct,
-        },
-      ]);
-    }
-
-    // Añade la puntación al jugador si la respuesta es correcta
+    // Añade la puntuación al jugador si es correcta
     if (correct) {
       this.addScore(player, 1);
     }
   }
 
   addScore(player, score) {
-    // Comprueba si el jugador se encuentra en la colección de puntos
-    if (this.scores.has(player)) {
-      // Obtiene los puntos del jugador
-      const playerScore = this.scores.get(player);
+    // Obtiene el jugador de la colección de jugadores
+    const gamePlayer = this.players.get(player);
 
-      // Añade los puntos al jugador
-      playerScore.push(score);
-      this.scores.set(player, playerScore);
-    } else {
-      // Añade el jugador a la colección de puntos
-      this.scores.set(player, [score]);
-    }
+    // Añade la puntación al jugador
+    gamePlayer.setScore(this.round, score);
+  }
+
+  // Inicia la partida
+  start(players) {
+    // Crea los jugadores de la partida
+    this.createPlayers(players);
+
+    // Obtiene las canciones aleatorias
+    this.randomSongs = this.getRandomSongs(5);
+
+    // Aumenta el número de ronda
+    this.round++;
+
+    // Cambia el estado de la partida
+    this.state = "playing";
   }
 }
 
