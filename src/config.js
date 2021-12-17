@@ -9,6 +9,8 @@ module.exports = {
       host: "localhost",
       port: 2333,
       password: process.env.LAVALINK_PASSWORD,
+      retryAmount: 5,
+      retryDelay: 10000,
     },
   ],
 };
