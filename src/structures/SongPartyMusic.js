@@ -3,12 +3,17 @@ class SongPartyMusic {
     this.guild = guild;
   }
 
-  // Devuelve el objeto Manager de Erela.js
-  get manager() {
-    return this.guild.client.manager;
+  // Devuelve el objeto Client
+  get client() {
+    return this.guild.client;
   }
 
-  // Devuelve el objeto Player de Erela.js
+  // Devuelve el objeto Manager
+  get manager() {
+    return this.client.manager;
+  }
+
+  // Devuelve el objeto Player
   get player() {
     return this.manager.players.get(this.guild.id) || null;
   }

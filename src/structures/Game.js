@@ -9,6 +9,8 @@ class Game {
     this.id = "game_" + Math.random().toString(36).substring(2, 9);
 
     this.round = 0;
+    // Duración de la ronda en milisegundos
+    this.round_duration = 30000;
     this.state = "preparing";
 
     this.players = new Collection();
@@ -103,6 +105,8 @@ class Game {
     // Añade la puntuación al jugador si es correcta
     if (correct) {
       this.addScore(player, 1);
+    } else {
+      this.addScore(player, 0);
     }
   }
 
