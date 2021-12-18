@@ -26,6 +26,8 @@ module.exports = {
     if (interaction.isSelectMenu()) {
       // Obtiene el usuario que ha seleccionado una opción
       const userId = interaction.user.id;
+      // Obtiene el nombre de usuario del jugador
+      const userName = interaction.user.username;
 
       // Obtiene la partida de la colección de partidas
       const game = client.games.get(interaction.guildId);
@@ -35,6 +37,26 @@ module.exports = {
 
       // Añade la respuesta del usuario a la partida
       game.addAnswer(userId, interaction.values[0]);
+
+      // Obtiene el número de jugadores que quedan por responder
+      const remaining = game.getRemainingPlayers();
+
+      let content = "";
+      if (remaining > 0) {
+        content = `El jugador (${userName}) ha seleccionado una opción, esperando a ${remaining} ${
+          remaining !== 1 ? "jugadores" : "jugador"
+        }.`;
+      } else {
+        content = `El jugador (${userName}) ha sido el último en responder, pasando a la ronda ${
+          game.round + 1
+        }.`;
+      }
+
+      // Envía el mensaje de respuesta
+      await interaction.reply({
+        content,
+        ephemeral: false,
+      });
     }
   },
 };

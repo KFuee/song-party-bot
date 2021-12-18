@@ -112,6 +112,20 @@ class Game {
     gamePlayer.setScore(this.round, score);
   }
 
+  // Obtiene el número de jugadores que quedan por responder
+  getRemainingPlayers() {
+    // Obtiene el número de jugadores
+    const players = this.players.size;
+
+    // Obtiene el número de jugadores que han respondido
+    const answeredPlayers = this.players.filter((player) => {
+      return player.hasAnswered(this.round);
+    });
+
+    // Devuelve el número de jugadores que quedan por responder
+    return players - answeredPlayers.size;
+  }
+
   // Inicia la partida
   start(players) {
     // Crea los jugadores de la partida
