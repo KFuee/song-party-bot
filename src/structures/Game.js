@@ -4,7 +4,7 @@ const GamePlayer = require("./GamePlayer");
 const Functions = require("../utils/Functions");
 
 class Game {
-  constructor(playlistSongs) {
+  constructor(playlistTracks) {
     // Genera una id aleatoria para la partida con Math.random()
     this.id = "game_" + Math.random().toString(36).substring(2, 9);
 
@@ -12,8 +12,13 @@ class Game {
     this.state = "preparing";
 
     this.players = new Collection();
-    this.playlistSongs = playlistSongs;
-    this.randomSongs = [];
+    this.playlistTracks = playlistTracks;
+    this.randomTracks = [];
+  }
+
+  // Obtiene la canción actual
+  get currentTrack() {
+    return this.randomTracks[this.round - 1];
   }
 
   // Crea todos los jugadores de la partida
@@ -24,32 +29,32 @@ class Game {
   }
 
   // Obtiene n canciones aleatorias de la playlist
-  getRandomSongs(n) {
+  getRandomTracks(n) {
     // Comprueba si hay canciones en la playlist
-    if (!this.playlistSongs) {
+    if (!this.playlistTracks) {
       return;
     }
 
     // Mezcla las canciones aleatoriamente
-    const randomSongs = Functions.randomizeArray(this.playlistSongs);
+    const randomTracks = Functions.randomizeArray(this.playlistTracks);
 
-    // Obtiene n canciones de randomSongs
-    const randomSongs_slice = randomSongs.slice(0, n);
+    // Obtiene n canciones de randomTracks
+    const randomTracks_slice = randomTracks.slice(0, n);
 
     // Devuelve las canciones
-    return randomSongs_slice;
+    return randomTracks_slice;
   }
 
-  // Obtiene n respuestas aleatorias de la playlist
-  getRandomAnswers(n, track) {
+  // Obtiene n respuestas aleatorias de randomTracks
+  getRandomAnswers(n) {
     // Mezcla las canciones aleatoriamente
-    const randomSongs = Functions.randomizeArray(this.playlistSongs);
+    const randomTracks = Functions.randomizeArray(this.playlistTracks);
 
-    // Obtiene n - 1 canciones de randomSongs
-    const randomSongs_slice = randomSongs.slice(0, n - 1);
+    // Obtiene n - 1 canciones de randomTracks
+    const randomTracks_slice = randomTracks.slice(0, n - 1);
 
     // Obtiene una array de respuestas aleatorias
-    const answers = randomSongs_slice.map((track) => {
+    const answers = randomTracks_slice.map((track) => {
       const randomBoolean = Functions.randomBoolean();
 
       if (randomBoolean) {
@@ -63,9 +68,9 @@ class Game {
     const randomBoolean = Functions.randomBoolean();
 
     if (randomBoolean) {
-      answers.push(track.title);
+      answers.push(this.currentTrack.title);
     } else {
-      answers.push(track.author);
+      answers.push(this.currentTrack.author);
     }
 
     // Devuelve las respuestas
@@ -75,8 +80,8 @@ class Game {
   checkAnswer(answer) {
     // Comprueba si la respuesta es correcta
     if (
-      answer === this.randomSongs[this.round - 1].title ||
-      answer === this.randomSongs[this.round - 1].author
+      answer === this.currentTrack.title ||
+      answer === this.currentTrack.author
     ) {
       return true;
     } else {
@@ -132,7 +137,7 @@ class Game {
     this.createPlayers(players);
 
     // Obtiene las canciones aleatorias
-    this.randomSongs = this.getRandomSongs(5);
+    this.randomTracks = this.getRandomTracks(5);
 
     // Aumenta el número de ronda
     this.round++;

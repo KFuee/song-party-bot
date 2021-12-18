@@ -14,17 +14,17 @@ class SongPartyMusic {
   }
 
   // Obtiene las canciones de una playlist
-  async getPlaylistSongs(playlist, requester) {
+  async getPlaylistTracks(playlist, requester) {
     // Comprueba si existe un reproductor en el servidor
     if (!this.player) {
       return;
     }
 
     // Obtiene las canciones de la playlist
-    const playlistSongs = await this.player.search(playlist, requester);
+    const playlistTracks = await this.player.search(playlist, requester);
 
     // Devuelve las canciones
-    return playlistSongs.tracks;
+    return playlistTracks.tracks;
   }
 
   // Se conecta al canal de voz

@@ -38,13 +38,13 @@ module.exports = {
     music.connect(textChannel, voiceChannel.id);
 
     // Obtiene las canciones de la playlist
-    const playlistSongs = await music.getPlaylistSongs(
+    const playlistTracks = await music.getPlaylistTracks(
       "https://www.youtube.com/watch?v=J4_W-R3iPJ8&list=PLxZHtuv5hUL94eMtcOOV0BiZu6a4cRo4J",
       userId
     );
 
     // Crea una instancia de la clase Game
-    const game = new Game(playlistSongs);
+    const game = new Game(playlistTracks);
 
     // Crea: jugadores, canciones. Modifica el estado de la partida
     game.start(players);
@@ -53,6 +53,6 @@ module.exports = {
     client.games.set(guildId, game);
 
     // Reproduce la primera canción
-    music.play(game.randomSongs[0], 30, 60, false);
+    music.play(game.currentTrack, 30, 60, false);
   },
 };
