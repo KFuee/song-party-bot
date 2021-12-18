@@ -35,6 +35,11 @@ module.exports = {
       // Comprueba si la partida existe
       if (!game) return;
 
+      // Comprueba si el jugador ya ha respondido
+      if (game.players.get(userId).hasAnswered(game.round)) {
+        return;
+      }
+
       // Añade la respuesta del usuario a la partida
       game.addAnswer(userId, interaction.values[0]);
 

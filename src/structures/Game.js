@@ -94,9 +94,6 @@ class Game {
     // Obtiene el jugador de la colección de jugadores
     const gamePlayer = this.players.get(player);
 
-    // Comprueba si el jugador ha respondido ya
-    if (gamePlayer.hasAnswered(this.round)) return;
-
     // Comprueba si la respuesta es correcta
     const correct = this.checkAnswer(answer);
 
