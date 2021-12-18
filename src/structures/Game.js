@@ -49,13 +49,13 @@ class Game {
     const randomSongs_slice = randomSongs.slice(0, n - 1);
 
     // Obtiene una array de respuestas aleatorias
-    const answers = randomSongs_slice.map((song) => {
+    const answers = randomSongs_slice.map((track) => {
       const randomBoolean = Functions.randomBoolean();
 
       if (randomBoolean) {
-        return song.title;
+        return track.title;
       } else {
-        return song.author;
+        return track.author;
       }
     });
 

@@ -49,14 +49,14 @@ class SongPartyMusic {
   }
 
   // Reproduce una canción
-  play(song) {
+  play(track, start, end, noReplace) {
     // Comprueba si existe un reproductor en el servidor
     if (!this.player) {
       return;
     }
 
     // Añade la canción al reproductor
-    this.player.queue.add(song);
+    this.player.queue.add(track);
 
     // Comprueba si el reproductor está reproduciendo
     if (
@@ -64,8 +64,14 @@ class SongPartyMusic {
       !this.player.paused &&
       !this.player.queue.size
     ) {
+      // startTime, de segundos a milisegundos
+      const startTime = start * 1000;
+
+      // endTime, de segundos a milisegundos
+      const endTime = end * 1000;
+
       // Reproduce la canción
-      this.player.play();
+      this.player.play({ endTime, noReplace, startTime });
     }
   }
 }

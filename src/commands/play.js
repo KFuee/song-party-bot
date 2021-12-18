@@ -53,6 +53,6 @@ module.exports = {
     client.games.set(guildId, game);
 
     // Reproduce la primera canción
-    music.play(game.randomSongs[0]);
+    music.play(game.randomSongs[0], 30, 60, false);
   },
 };
