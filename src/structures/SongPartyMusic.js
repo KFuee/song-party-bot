@@ -3,14 +3,14 @@ class SongPartyMusic {
     this.guild = guild;
   }
 
-  // Devuelve el objeto SongPartyClient
-  get client() {
-    return this.guild.client;
+  // Devuelve el objeto Manager de Erela.js
+  get manager() {
+    return this.guild.client.manager;
   }
 
-  // Devuelve el objeto player de erela.js
+  // Devuelve el objeto Player de Erela.js
   get player() {
-    return this.client.manager.players.get(this.guild.id) || null;
+    return this.manager.players.get(this.guild.id) || null;
   }
 
   // Obtiene las canciones de una playlist
@@ -35,7 +35,7 @@ class SongPartyMusic {
     }
 
     // Crea un nuevo reproductor
-    const player = this.client.manager.create({
+    const player = this.manager.create({
       selfDeafen: true,
       textChannel: text,
       voiceChannel: voice,
@@ -64,11 +64,11 @@ class SongPartyMusic {
       !this.player.paused &&
       !this.player.queue.size
     ) {
-      // startTime, de segundos a milisegundos
-      const startTime = start * 1000;
-
       // endTime, de segundos a milisegundos
       const endTime = end * 1000;
+
+      // startTime, de segundos a milisegundos
+      const startTime = start * 1000;
 
       // Reproduce la canción
       this.player.play({ endTime, noReplace, startTime });
