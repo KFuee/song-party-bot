@@ -46,11 +46,11 @@ module.exports = {
       );
 
     // Envía el embed
-    const message = await channel.send({ embeds: [embed] });
+    const embedMessage = await channel.send({ embeds: [embed] });
 
     // Añade n reacciones del 1 al 9 máximo en emoji
     for (let i = 0; i < answers.length; i++) {
-      message.react(`${i + 1}⃣`);
+      embedMessage.react(`${i + 1}⃣`);
     }
 
     // Filtro para obtener las reacciones
@@ -63,7 +63,7 @@ module.exports = {
     };
 
     // Colector de reacciones para obtener las respuestas
-    const reactions = await message.awaitReactions({
+    const reactions = await embedMessage.awaitReactions({
       filter,
       max: game.players.size,
       time: game.round_duration,
@@ -85,14 +85,21 @@ module.exports = {
     });
 
     // Envía un mensaje de finalización
-    channel.send(
-      `¡La ronda ha finalizado! Pasando a la ronda ${game.round + 1}...`
+    const finRoundMessage = await channel.send(
+      `¡La ronda ha finalizado! Preparando la ronda ${game.round + 1}...`
     );
-
-    // Salta a la siguiente canción
-    player.stop();
 
     // Finaliza la ronda
     game.endRound();
+
+    // Elimina los mensajes enviados
+    embedMessage.delete();
+    // Establece un tiempo de espera para eliminar el mensaje de finalización
+    setTimeout(async () => {
+      await finRoundMessage.delete();
+
+      // Una vez eliminado el mensaje, salta a la siguiente canción
+      player.stop();
+    }, 5000);
   },
 };
