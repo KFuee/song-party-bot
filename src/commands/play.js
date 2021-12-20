@@ -52,7 +52,10 @@ module.exports = {
     // Añade la partida a la colección de partidas
     client.games.set(guildId, game);
 
+    // Añade las canciones aleatorias a la cola
+    music.addTracksToQueue(game.randomTracks);
+
     // Reproduce la primera canción
-    music.play(game.currentTrack, 30, 60, false);
+    music.play(30, 60, false);
   },
 };

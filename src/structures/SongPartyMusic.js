@@ -18,6 +18,10 @@ class SongPartyMusic {
     return this.manager.players.get(this.guild.id) || null;
   }
 
+  get game() {
+    return this.client.games.get(this.guild.id) || null;
+  }
+
   // Obtiene las canciones de una playlist
   async getPlaylistTracks(playlist, requester) {
     // Comprueba si existe un reproductor en el servidor
@@ -30,6 +34,16 @@ class SongPartyMusic {
 
     // Devuelve las canciones
     return playlistTracks.tracks;
+  }
+
+  // Añade las canciones a la cola
+  addTracksToQueue(tracks) {
+    // Comprueba si existe un reproductor en el servidor
+    if (!this.player) {
+      return;
+    }
+
+    this.player.queue.add(tracks);
   }
 
   // Se conecta al canal de voz
@@ -54,20 +68,17 @@ class SongPartyMusic {
   }
 
   // Reproduce una canción
-  play(track, start, end, noReplace) {
+  play(start, end, noReplace) {
     // Comprueba si existe un reproductor en el servidor
     if (!this.player) {
       return;
     }
 
-    // Añade la canción al reproductor
-    this.player.queue.add(track);
-
     // Comprueba si el reproductor está reproduciendo
     if (
       !this.player.playing &&
       !this.player.paused &&
-      !this.player.queue.size
+      this.player.queue.totalSize === this.game.randomTracks.length
     ) {
       // endTime, de segundos a milisegundos
       const endTime = end * 1000;

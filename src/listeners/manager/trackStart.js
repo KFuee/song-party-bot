@@ -19,7 +19,7 @@ module.exports = {
     const game = client.games.get(payload.guildId);
 
     // Obtiene las posibles respuestas
-    const answers = game.getRandomAnswers(5, track);
+    const answers = game.getRandomAnswers(5);
 
     // Crea un nuevo embed con las respuestas
     const embed = new MessageEmbed()
@@ -88,5 +88,11 @@ module.exports = {
     channel.send(
       `¡La ronda ha finalizado! Pasando a la ronda ${game.round + 1}...`
     );
+
+    // Salta a la siguiente canción
+    player.stop();
+
+    // Finaliza la ronda
+    game.endRound();
   },
 };

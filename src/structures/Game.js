@@ -20,7 +20,7 @@ class Game {
 
   // Obtiene la canción actual
   get currentTrack() {
-    return this.randomTracks[this.round - 1];
+    return this.randomTracks[0];
   }
 
   // Crea todos los jugadores de la partida
@@ -56,7 +56,7 @@ class Game {
     const randomTracks_slice = randomTracks.slice(0, n - 1);
 
     // Obtiene una array de respuestas aleatorias
-    const answers = randomTracks_slice.map((track) => {
+    let answers = randomTracks_slice.map((track) => {
       const randomBoolean = Functions.randomBoolean();
 
       if (randomBoolean) {
@@ -74,6 +74,9 @@ class Game {
     } else {
       answers.push(this.currentTrack.author);
     }
+
+    // Vuelve a mezclar las respuestas
+    answers = Functions.randomizeArray(answers);
 
     // Devuelve las respuestas
     return answers;
@@ -145,6 +148,15 @@ class Game {
 
     // Cambia el estado de la partida
     this.state = "playing";
+  }
+
+  // Finaliza la ronda
+  endRound() {
+    // Elimina última canción reproducida de randomTracks
+    this.randomTracks.shift();
+
+    // Aumenta el número de ronda
+    this.round++;
   }
 }
 
