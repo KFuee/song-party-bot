@@ -156,6 +156,13 @@ class Game {
     // Elimina última canción reproducida de randomTracks
     this.randomTracks.shift();
 
+    // Comprueba si la partida ha terminado
+    if (this.round === this.nRounds) {
+      this.state = "finished";
+
+      return;
+    }
+
     // Aumenta el número de ronda
     this.round++;
   }

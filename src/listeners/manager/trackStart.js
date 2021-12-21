@@ -84,13 +84,20 @@ module.exports = {
       });
     });
 
-    // Envía un mensaje de finalización
-    const finRoundMessage = await channel.send(
-      `¡La ronda ha finalizado! Preparando la ronda ${game.round + 1}...`
-    );
-
     // Finaliza la ronda
     game.endRound();
+
+    // Envía un mensaje de finalización
+    let finRoundMessage;
+    if (game.state !== "finished") {
+      finRoundMessage = await channel.send(
+        `¡La ronda ha finalizado! Preparando la ronda ${game.round}...`
+      );
+    } else {
+      finRoundMessage = await channel.send(
+        `¡La partida ha finalizado! Obteniendo resultados...`
+      );
+    }
 
     // Elimina los mensajes enviados
     embedMessage.delete();
