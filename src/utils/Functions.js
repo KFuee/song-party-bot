@@ -10,6 +10,10 @@ class Functions {
   static convertMsToSeconds(ms) {
     return Math.floor(ms / 1000);
   }
+
+  static convertSecondsToMs(seconds) {
+    return seconds * 1000;
+  }
 }
 
 module.exports = Functions;

@@ -1,3 +1,5 @@
+const Functions = require("../utils/Functions");
+
 class SongPartyMusic {
   constructor(guild) {
     this.guild = guild;
@@ -81,10 +83,10 @@ class SongPartyMusic {
       this.player.queue.totalSize === this.game.randomTracks.length
     ) {
       // endTime, de segundos a milisegundos
-      const endTime = end * 1000;
+      const endTime = Functions.convertSecondsToMs(end);
 
       // startTime, de segundos a milisegundos
-      const startTime = start * 1000;
+      const startTime = Functions.convertSecondsToMs(start);
 
       // Reproduce la canción
       this.player.play({ endTime, noReplace, startTime });
