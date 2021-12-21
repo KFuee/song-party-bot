@@ -6,7 +6,13 @@ const SongPartyMusic = require("../structures/SongPartyMusic");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("play")
-    .setDescription("Iniciar una partida de trivia"),
+    .setDescription("Iniciar una partida de trivia")
+    .addIntegerOption((option) =>
+      option
+        .setName("rounds")
+        .setDescription("Número de rondas a jugar")
+        .setRequired(true)
+    ),
   async execute(interaction) {
     const client = interaction.client;
     const guildId = interaction.guildId;
@@ -44,7 +50,10 @@ module.exports = {
     );
 
     // Crea una instancia de la clase Game
-    const game = new Game(playlistTracks);
+    const game = new Game(
+      playlistTracks,
+      interaction.options.getInteger("rounds")
+    );
 
     // Crea: jugadores, canciones. Modifica el estado de la partida
     game.start(players);

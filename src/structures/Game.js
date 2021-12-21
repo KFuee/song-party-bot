@@ -4,11 +4,12 @@ const GamePlayer = require("./GamePlayer");
 const Functions = require("../utils/Functions");
 
 class Game {
-  constructor(playlistTracks) {
+  constructor(playlistTracks, nRounds) {
     // Genera una id aleatoria para la partida con Math.random()
     this.id = "game_" + Math.random().toString(36).substring(2, 9);
 
     this.round = 0;
+    this.nRounds = nRounds;
     // Duración de la ronda en milisegundos
     this.round_duration = 30000;
     this.state = "preparing";
@@ -141,7 +142,7 @@ class Game {
     this.createPlayers(players);
 
     // Obtiene las canciones aleatorias
-    this.randomTracks = this.getRandomTracks(5);
+    this.randomTracks = this.getRandomTracks(this.nRounds);
 
     // Aumenta el número de ronda
     this.round++;
