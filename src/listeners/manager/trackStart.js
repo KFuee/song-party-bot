@@ -100,7 +100,7 @@ module.exports = {
     }
 
     // Elimina los mensajes enviados
-    embedMessage.delete();
+    await embedMessage.delete();
     // Establece un tiempo de espera para eliminar el mensaje de finalización
     setTimeout(async () => {
       await finRoundMessage.delete();

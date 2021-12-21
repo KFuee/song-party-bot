@@ -64,7 +64,17 @@ module.exports = {
     // Añade las canciones aleatorias a la cola
     music.addTracksToQueue(game.randomTracks);
 
-    // Reproduce la primera canción
-    music.play(30, 60, false);
+    // Responde al usuario con el número de rondas y jugadores
+    await interaction.reply(
+      `Iniciando partida con ${game.players.size} jugadores y ${game.nRounds} rondas...`
+    );
+
+    setTimeout(() => {
+      // Elimina la respuesta después de 5 segundos
+      interaction.deleteReply();
+
+      // Reproduce la primera canción
+      music.play(30, 60, false);
+    }, 5000);
   },
 };
