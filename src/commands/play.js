@@ -12,6 +12,12 @@ module.exports = {
         .setName("rounds")
         .setDescription("Número de rondas a jugar")
         .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("playlist")
+        .setDescription("URL de la playlist")
+        .setRequired(true)
     ),
   async execute(interaction) {
     const client = interaction.client;
@@ -45,7 +51,7 @@ module.exports = {
 
     // Obtiene las canciones de la playlist
     const playlistTracks = await music.getPlaylistTracks(
-      "https://www.youtube.com/watch?v=J4_W-R3iPJ8&list=PLxZHtuv5hUL94eMtcOOV0BiZu6a4cRo4J",
+      interaction.options.getString("playlist"),
       userId
     );
 
