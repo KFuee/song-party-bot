@@ -66,12 +66,14 @@ module.exports = {
 
     // Responde al usuario con el número de rondas y jugadores
     await interaction.reply(
-      `Iniciando partida con ${game.players.size} jugadores y ${game.nRounds} rondas...`
+      `Iniciando partida con ${game.players.size} ${
+        game.players.size > 1 ? "jugadores" : "jugador"
+      } y ${game.nRounds} rondas...`
     );
 
-    setTimeout(() => {
+    setTimeout(async () => {
       // Elimina la respuesta después de 5 segundos
-      interaction.deleteReply();
+      await interaction.deleteReply();
 
       // Reproduce la primera canción
       music.play(30, 60, false);
